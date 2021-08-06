@@ -1,0 +1,8 @@
+Dependency :
+sudo apt-get install gzip
+
+sudo mkdir /var/lib/postgresql/azdwh_data
+sudo mkdir /var/lib/postgresql/azdwh_data_ix
+
+sudo chown -R postgres azdwh_data/
+sudo chown -R postgres azdwh_data_ix/
