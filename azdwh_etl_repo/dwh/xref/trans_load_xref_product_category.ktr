@@ -10,17 +10,17 @@
     <parameters>
       <parameter>
         <name>batch_identifier</name>
-        <default_value>1</default_value>
+        <default_value>27</default_value>
         <description/>
       </parameter>
       <parameter>
         <name>process_identifier</name>
-        <default_value>3</default_value>
+        <default_value>9</default_value>
         <description/>
       </parameter>
       <parameter>
         <name>process_start_time</name>
-        <default_value>2021-01-01 </default_value>
+        <default_value>2021/08/08 14:19:15.657805000</default_value>
         <description/>
       </parameter>
     </parameters>
@@ -444,7 +444,7 @@
     <created_user>-</created_user>
     <created_date>2021/08/06 19:28:03.042</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/08/08 08:59:29.562</modified_date>
+    <modified_date>2021/08/08 14:23:45.226</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -893,6 +893,114 @@
     </GUI>
   </step>
   <step>
+    <name>is_product_category_key_exist ?</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>load_xref_product_category</send_true_to>
+    <send_false_to>key exist</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>product_key_tgt</leftvalue>
+            <function>IS NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>category_key_tgt</leftvalue>
+            <function>IS NULL</function>
+            <rightvalue/>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1418</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>join_src_tgt</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>FULL OUTER</join_type>
+    <step1>sort_on_product_category</step1>
+    <step2>read_from_xre_product_category</step2>
+    <keys_1>
+      <key>product_key_src</key>
+      <key>category_key_src</key>
+    </keys_1>
+    <keys_2>
+      <key>product_key_tgt</key>
+      <key>category_key_tgt</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1232</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>key exist</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1418</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>load_error_log_cateory</name>
     <type>TableOutput</type>
     <description/>
@@ -1103,7 +1211,7 @@
       </field>
       <field>
         <column_name>category_key</column_name>
-        <stream_name>product_key_tgt</stream_name>
+        <stream_name>category_key_src</stream_name>
       </field>
     </fields>
     <attributes/>
@@ -1115,7 +1223,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1600</xloc>
+      <xloc>1760</xloc>
       <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1216,7 +1324,7 @@
         <name>category_name</name>
         <length>100</length>
         <precision>-1</precision>
-        <origin>read_dim_reviewer</origin>
+        <origin>read_dim_category</origin>
         <comments>category_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1239,7 +1347,7 @@
         <name>category_key</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>read_dim_reviewer</origin>
+        <origin>read_dim_category</origin>
         <comments>category_key</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1372,7 +1480,8 @@ ${process_identifier} as process_identifier,
 '${job_name}' as job_name,
 '${source}' as source
 FROM   stage_own.categories
-where category_name is not null or
+where 
+category_name is not null and
 asin is not null</sql>
     <limit>0</limit>
     <lookup/>
@@ -1474,10 +1583,10 @@ asin is not null</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Timestamp</type>
         <storagetype>normal</storagetype>
         <name>process_start_time</name>
-        <length>2147483647</length>
+        <length>6</length>
         <precision>-1</precision>
         <origin>read_from_categories</origin>
         <comments>process_start_time</comments>
@@ -1553,42 +1662,6 @@ asin is not null</sql>
     </remotesteps>
     <GUI>
       <xloc>144</xloc>
-      <yloc>80</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>join_src_tgt</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>FULL OUTER</join_type>
-    <step1>sort_on_product_category</step1>
-    <step2>read_from_xre_product_category</step2>
-    <keys_1>
-      <key>product_key_src</key>
-      <key>category_key_src</key>
-    </keys_1>
-    <keys_2>
-      <key>product_key_tgt</key>
-      <key>category_key_tgt</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1232</xloc>
       <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1726,78 +1799,6 @@ order by product_key,
     <GUI>
       <xloc>1054</xloc>
       <yloc>80</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>is_product_category_key_exist ?</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <send_true_to>load_xref_product_category</send_true_to>
-    <send_false_to>key exist</send_false_to>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <conditions>
-          <condition>
-            <negated>N</negated>
-            <leftvalue>product_key_tgt</leftvalue>
-            <function>IS NULL</function>
-            <rightvalue/>
-          </condition>
-          <condition>
-            <negated>N</negated>
-            <operator>OR</operator>
-            <leftvalue>category_key_tgt</leftvalue>
-            <function>IS NULL</function>
-            <rightvalue/>
-          </condition>
-        </conditions>
-      </condition>
-    </compare>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1418</xloc>
-      <yloc>80</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>key exist</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1418</xloc>
-      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
