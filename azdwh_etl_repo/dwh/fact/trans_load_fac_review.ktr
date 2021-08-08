@@ -429,7 +429,7 @@
     <created_user>-</created_user>
     <created_date>2021/08/06 19:10:09.105</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/08/08 09:29:19.369</modified_date>
+    <modified_date>2021/08/08 18:49:03.941</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -437,13 +437,13 @@
   </notepads>
   <connection>
     <name>azdwh_dwh_conn</name>
-    <server>localhost</server>
+    <server>${AZDWH_HOSTNAME}</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>azdwh</database>
-    <port>5432</port>
-    <username>azdwh_usr</username>
-    <password>Encrypted 2be98afc86ac68880bc11bb63ccc3fd89</password>
+    <database>${AZDWH_DBNAME}</database>
+    <port>${AZDWH_PORT}</port>
+    <username>${AZDWH_USERNAME}</username>
+    <password>${AZDWH_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -462,7 +462,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>5432</attribute>
+        <attribute>${AZDWH_PORT}</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -488,13 +488,13 @@
   </connection>
   <connection>
     <name>azdwh_stg_conn</name>
-    <server>localhost</server>
+    <server>${AZDWH_HOSTNAME}</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>azdwh</database>
-    <port>5432</port>
-    <username>azdwh_usr</username>
-    <password>Encrypted 2be98afc86ac68880bc11bb63ccc3fd89</password>
+    <database>${AZDWH_DBNAME}</database>
+    <port>${AZDWH_PORT}</port>
+    <username>${AZDWH_USERNAME}</username>
+    <password>${AZDWH_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -513,7 +513,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>5432</attribute>
+        <attribute>${AZDWH_PORT}</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -779,6 +779,42 @@
     </GUI>
   </step>
   <step>
+    <name>fetch_next_seq_no</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>azdwh_dwh_conn</connection>
+    <sql>select coalesce(max(sequence_number),0)+1 as next_sequence_number
+from dwh_own.fac_review 
+where batch_identifier=${batch_identifier}</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1184</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>fetch_product_key</name>
     <type>StreamLookup</type>
     <description/>
@@ -858,6 +894,43 @@
     </remotesteps>
     <GUI>
       <xloc>800</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>get_next_sequence_num</name>
+    <type>JoinRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <cache_size>500</cache_size>
+    <main>no_review_key ?</main>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue/>
+        <function>=</function>
+        <rightvalue/>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1184</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1699,78 +1772,6 @@ FROM   stage_own.review </sql>
     </remotesteps>
     <GUI>
       <xloc>128</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>fetch_next_seq_no</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>azdwh_dwh_conn</connection>
-    <sql>select coalesce(max(sequence_number),0)+1 as next_sequence_number
-from dwh_own.fac_review 
-where batch_identifier=${batch_identifier}</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1184</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>get_next_sequence_num</name>
-    <type>JoinRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <cache_size>500</cache_size>
-    <main>no_review_key ?</main>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue/>
-        <function>=</function>
-        <rightvalue/>
-      </condition>
-    </compare>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1184</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>

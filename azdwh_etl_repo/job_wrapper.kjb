@@ -8,7 +8,7 @@
   <created_user>-</created_user>
   <created_date>2021/08/06 23:59:39.762</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2021/08/07 19:53:17.769</modified_date>
+  <modified_date>2021/08/08 18:46:24.442</modified_date>
   <parameters>
     <parameter>
       <name>inp_file_name</name>
@@ -33,13 +33,13 @@
   </parameters>
   <connection>
     <name>azdwh_stg_conn</name>
-    <server>localhost</server>
+    <server>${AZDWH_HOSTNAME}</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>azdwh</database>
-    <port>5432</port>
-    <username>azdwh_usr</username>
-    <password>Encrypted 2be98afc86ac68880bc11bb63ccc3fd89</password>
+    <database>${AZDWH_DBNAME}</database>
+    <port>${AZDWH_PORT}</port>
+    <username>${AZDWH_USERNAME}</username>
+    <password>${AZDWH_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -58,7 +58,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>5432</attribute>
+        <attribute>${AZDWH_PORT}</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>

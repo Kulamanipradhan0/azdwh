@@ -428,7 +428,7 @@
     <created_user>-</created_user>
     <created_date>2021/08/06 16:51:49.392</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/08/07 23:20:56.397</modified_date>
+    <modified_date>2021/08/08 18:49:38.373</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -436,13 +436,13 @@
   </notepads>
   <connection>
     <name>azdwh_dwh_conn</name>
-    <server>localhost</server>
+    <server>${AZDWH_HOSTNAME}</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>azdwh</database>
-    <port>5432</port>
-    <username>azdwh_usr</username>
-    <password>Encrypted 2be98afc86ac68880bc11bb63ccc3fd89</password>
+    <database>${AZDWH_DBNAME}</database>
+    <port>${AZDWH_PORT}</port>
+    <username>${AZDWH_USERNAME}</username>
+    <password>${AZDWH_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -461,7 +461,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>5432</attribute>
+        <attribute>${AZDWH_PORT}</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -707,6 +707,45 @@
     <GUI>
       <xloc>1296</xloc>
       <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>get_batch_id</name>
+    <type>GetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>batch_identifier</name>
+        <variable>${batch_identifier}</variable>
+        <type>Integer</type>
+        <format>#</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1504</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1361,45 +1400,6 @@ from dwh_own.dim_price_bucket</sql>
     <GUI>
       <xloc>928</xloc>
       <yloc>320</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>get_batch_id</name>
-    <type>GetVariable</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>batch_identifier</name>
-        <variable>${batch_identifier}</variable>
-        <type>Integer</type>
-        <format>#</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1504</xloc>
-      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
