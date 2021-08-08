@@ -8,21 +8,6 @@
     <trans_status>0</trans_status>
     <directory>/dwh/xref</directory>
     <parameters>
-      <parameter>
-        <name>batch_identifier</name>
-        <default_value>27</default_value>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>process_identifier</name>
-        <default_value>9</default_value>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>process_start_time</name>
-        <default_value>2021/08/08 14:19:15.657805000</default_value>
-        <description/>
-      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -444,7 +429,7 @@
     <created_user>-</created_user>
     <created_date>2021/08/06 19:28:03.042</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/08/08 18:50:10.261</modified_date>
+    <modified_date>2021/08/09 00:31:47.854</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -1765,7 +1750,7 @@ order by product_key,
     </partitioning>
     <directory>${temp_file_location}/temp</directory>
     <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
+    <sort_size>500000</sort_size>
     <free_memory/>
     <compress>N</compress>
     <compress_variable/>

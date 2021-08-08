@@ -428,7 +428,7 @@
     <created_user>-</created_user>
     <created_date>2021/08/07 00:18:31.010</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/08/08 18:46:43.466</modified_date>
+    <modified_date>2021/08/09 00:25:23.656</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -502,13 +502,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Get variables</from>
-      <to>set_pi 2</to>
+      <from>get_params</from>
+      <to>set_job_vars</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Get variables</name>
+    <name>get_params</name>
     <type>GetVariable</type>
     <description/>
     <distribute>Y</distribute>
@@ -853,7 +853,7 @@ where batch_identifier = ?</sql>
     </GUI>
   </step>
   <step>
-    <name>set_pi 2</name>
+    <name>set_job_vars</name>
     <type>SetVariable</type>
     <description/>
     <distribute>Y</distribute>
