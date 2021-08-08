@@ -1,0 +1,1 @@
+create tablespace azdwh_tb LOCATION '/var/lib/postgresql/azdwh_data';
