@@ -1,5 +1,6 @@
 ﻿drop table if exists dwh_own.dim_category CASCADE;
 DROP MATERIALIZED VIEW  IF EXISTS dwh_own.mview_review_olap CASCADE;
+DROP MATERIALIZED VIEW  IF EXISTS dwh_own.mview_product_analysis_olap CASCADE;
 drop table if exists dwh_own.dim_price_bucket ;
 
 create table dwh_own.dim_price_bucket(

@@ -30,4 +30,5 @@
 \i dwh/5.dwh_own_fac_review.sql
 \i dwh/4.dwh_own_dim_calendar_date.sql
 \i dwh/6.mview_review_olap.sql
+\i dwh/6.mview_product_analysis_olap.sql
 
