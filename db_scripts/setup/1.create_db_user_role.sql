@@ -1,4 +1,14 @@
-﻿drop database if exists azdwh;
+drop schema if exists staging_own CASCADE;
+drop schema if exists dwh_own CASCADE;
+drop schema if exists auditing_own CASCADE;
+
+REVOKE CONNECT ON DATABASE azdwh FROM public;
+
+SELECT pg_terminate_backend(pg_stat_activity.pid)
+FROM pg_stat_activity
+WHERE pg_stat_activity.datname = 'azdwh';
+
+drop database if exists azdwh ;
 drop tablespace if exists azdwh_tb;
 drop tablespace if exists azdwh_ix;
 
