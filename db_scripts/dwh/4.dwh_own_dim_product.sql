@@ -1,4 +1,5 @@
-﻿drop table if exists dwh_own.dim_product CASCADE;
+﻿drop table if exists dwh_own.fac_review ;
+﻿drop table if exists dwh_own.dim_product;
 
 create table dwh_own.dim_product(
 product_key	bigserial not null,

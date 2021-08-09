@@ -1,4 +1,4 @@
-﻿drop table if exists dwh_own.dim_reviewer CASCADE;
+﻿drop table if exists dwh_own.dim_reviewer ;
 
 create table dwh_own.dim_reviewer(
 reviewer_key	bigserial not null,

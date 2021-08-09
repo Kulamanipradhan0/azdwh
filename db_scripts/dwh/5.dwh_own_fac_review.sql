@@ -1,4 +1,4 @@
-﻿drop table if exists dwh_own.fac_review CASCADE;
+
 
 create table dwh_own.fac_review(
 reviewer_key	bigint REFERENCES dwh_own.dim_reviewer,

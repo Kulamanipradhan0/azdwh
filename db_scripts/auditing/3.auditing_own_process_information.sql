@@ -1,5 +1,3 @@
-﻿
-DROP TABLE IF EXISTS auditing_own.process_information;
 
 CREATE TABLE auditing_own.process_information (
 	process_identifier int8 NOT NULL,
@@ -17,3 +15,4 @@ CREATE TABLE auditing_own.process_information (
 	target_table_name text NULL,
 	CONSTRAINT process_information_pkey PRIMARY KEY (process_identifier, batch_identifier, process_start_time)
 );
+

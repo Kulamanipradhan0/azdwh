@@ -1,4 +1,4 @@
-﻿drop table if exists dwh_own.xref_product_category CASCADE;
+
 
 create table dwh_own.xref_product_category(
 category_key bigint REFERENCES dwh_own.dim_category,

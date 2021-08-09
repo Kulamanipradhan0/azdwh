@@ -1,4 +1,4 @@
-﻿DROP TABLE if exists dwh_own.dim_calendar_date cascade;
+﻿DROP TABLE if exists dwh_own.dim_calendar_date;
 
 CREATE TABLE dwh_own.dim_calendar_date
 (

@@ -1,7 +1,6 @@
-﻿DROP TABLE IF EXISTS auditing_own.error_log;
 
 CREATE TABLE auditing_own.error_log (
-	batch_identifier int8 not NULL references auditing_own.batch_information,
+	batch_identifier int8 not NULL references auditing_own.batch_information(batch_identifier),
 	process_identifier int8 not null,
 	process_start_time timestamp not NULL,
 	source_system_name text NULL,

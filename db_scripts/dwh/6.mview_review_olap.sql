@@ -1,4 +1,4 @@
-﻿DROP MATERIALIZED VIEW  IF EXISTS dwh_own.mview_review_olap CASCADE;
+
 CREATE MATERIALIZED VIEW  IF NOT EXISTS dwh_own.mview_review_olap
     AS (
     select c.category_name,
