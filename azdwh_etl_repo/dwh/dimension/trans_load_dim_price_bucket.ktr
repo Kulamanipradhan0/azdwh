@@ -5,6 +5,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/dwh/dimension</directory>
     <parameters>
     </parameters>
@@ -428,7 +429,7 @@
     <created_user>-</created_user>
     <created_date>2021/08/06 16:51:49.392</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2021/08/09 00:35:15.525</modified_date>
+    <modified_date>2021/08/09 19:05:04.761</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -487,18 +488,13 @@
   </connection>
   <order>
     <hop>
-      <from>is_category_exist ?</from>
+      <from>is_ref_price_exist ?</from>
       <to>no_change</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>join_src_tgt</from>
-      <to>is_category_exist ?</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>price_bucket_list</from>
-      <to>natural_id_sort_src</to>
+      <to>is_ref_price_exist ?</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -517,7 +513,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>is_category_exist ?</from>
+      <from>is_ref_price_exist ?</from>
       <to>append</to>
       <enabled>Y</enabled>
     </hop>
@@ -564,6 +560,11 @@
     <hop>
       <from>get_batch_id</from>
       <to>load_dim_price_bucket</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>price_bucket_list</from>
+      <to>natural_id_sort_src</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -649,8 +650,8 @@
         <field>reference_price_src</field>
       </key>
       <value>
-        <name>price_bucket_id</name>
-        <rename>price_bucket_id</rename>
+        <name>price_bucket_key</name>
+        <rename>price_bucket_key</rename>
         <default/>
         <type>Integer</type>
       </value>
@@ -682,9 +683,9 @@
     </partitioning>
     <failIfNoFile>Y</failIfNoFile>
     <calculation>
-      <field_name>price_bucket_id</field_name>
+      <field_name>price_bucket_key</field_name>
       <calc_type>ADD</calc_type>
-      <field_a>current_price_bucket_id</field_a>
+      <field_a>current_price_bucket_key</field_a>
       <field_b>row_number</field_b>
       <field_c/>
       <value_type>Integer</value_type>
@@ -787,7 +788,7 @@
     </GUI>
   </step>
   <step>
-    <name>is_category_exist ?</name>
+    <name>is_ref_price_exist ?</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -806,13 +807,6 @@
           <condition>
             <negated>N</negated>
             <leftvalue>reference_price_tgt</leftvalue>
-            <function>IS NULL</function>
-            <rightvalue/>
-          </condition>
-          <condition>
-            <negated>N</negated>
-            <operator>AND</operator>
-            <leftvalue>description_tgt</leftvalue>
             <function>IS NULL</function>
             <rightvalue/>
           </condition>
@@ -849,11 +843,9 @@
     <step2>natural_id_sort_tgt</step2>
     <keys_1>
       <key>reference_price_src</key>
-      <key>description_src</key>
     </keys_1>
     <keys_2>
       <key>reference_price_tgt</key>
-      <key>description_tgt</key>
     </keys_2>
     <attributes/>
     <cluster_schema/>
@@ -899,20 +891,32 @@
     <return_field/>
     <fields>
       <field>
-        <column_name>description</column_name>
-        <stream_name>description_src</stream_name>
-      </field>
-      <field>
         <column_name>reference_price</column_name>
         <stream_name>reference_price_src</stream_name>
       </field>
       <field>
-        <column_name>price_bucket_id</column_name>
-        <stream_name>price_bucket_id</stream_name>
+        <column_name>price_bucket_key</column_name>
+        <stream_name>price_bucket_key</stream_name>
       </field>
       <field>
         <column_name>batch_identifier</column_name>
         <stream_name>batch_identifier</stream_name>
+      </field>
+      <field>
+        <column_name>first_interval</column_name>
+        <stream_name>first_interval</stream_name>
+      </field>
+      <field>
+        <column_name>second_interval</column_name>
+        <stream_name>second_interval</stream_name>
+      </field>
+      <field>
+        <column_name>third_interval</column_name>
+        <stream_name>third_interval</stream_name>
+      </field>
+      <field>
+        <column_name>fourth_interval</column_name>
+        <stream_name>fourth_interval</stream_name>
       </field>
     </fields>
     <attributes/>
@@ -950,14 +954,6 @@
     <fields>
       <field>
         <name>reference_price_src</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>description_src</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -1006,14 +1002,6 @@
         <collator_strength>0</collator_strength>
         <presorted>N</presorted>
       </field>
-      <field>
-        <name>description_tgt</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1055,179 +1043,6 @@
     </GUI>
   </step>
   <step>
-    <name>price_bucket_list</name>
-    <type>DataGrid</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>description_src</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-        <field_null_if/>
-      </field>
-      <field>
-        <name>reference_price_src</name>
-        <type>Number</type>
-        <format>#</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-        <field_null_if/>
-      </field>
-    </fields>
-    <data>
-      <line>
-        <item>Under $10</item>
-        <item>100</item>
-      </line>
-      <line>
-        <item>$10 to $20</item>
-        <item>100</item>
-      </line>
-      <line>
-        <item>$20 to $40</item>
-        <item>100</item>
-      </line>
-      <line>
-        <item>$40 to $80</item>
-        <item>100</item>
-      </line>
-      <line>
-        <item>Above $80 </item>
-        <item>100</item>
-      </line>
-      <line>
-        <item>Under $25</item>
-        <item>500</item>
-      </line>
-      <line>
-        <item>$25 to $50</item>
-        <item>500</item>
-      </line>
-      <line>
-        <item>$50 to $100</item>
-        <item>500</item>
-      </line>
-      <line>
-        <item>$100 to $200</item>
-        <item>500</item>
-      </line>
-      <line>
-        <item>Above $200 </item>
-        <item>500</item>
-      </line>
-      <line>
-        <item>Under $100</item>
-        <item>1000</item>
-      </line>
-      <line>
-        <item>$100 to $200</item>
-        <item>1000</item>
-      </line>
-      <line>
-        <item>$200 to $400</item>
-        <item>1000</item>
-      </line>
-      <line>
-        <item>$400 to $800</item>
-        <item>1000</item>
-      </line>
-      <line>
-        <item>Above $800</item>
-        <item>1000</item>
-      </line>
-      <line>
-        <item>Under $500</item>
-        <item>5000</item>
-      </line>
-      <line>
-        <item>$500 to $1000</item>
-        <item>5000</item>
-      </line>
-      <line>
-        <item>$1000 to $2000</item>
-        <item>5000</item>
-      </line>
-      <line>
-        <item>$2000 to $4000</item>
-        <item>5000</item>
-      </line>
-      <line>
-        <item>Above $4000</item>
-        <item>5000</item>
-      </line>
-      <line>
-        <item>Under $1000</item>
-        <item>10000</item>
-      </line>
-      <line>
-        <item>$1000 to $2000</item>
-        <item>10000</item>
-      </line>
-      <line>
-        <item>$2000 to $4000</item>
-        <item>10000</item>
-      </line>
-      <line>
-        <item>$4000 to $8000</item>
-        <item>10000</item>
-      </line>
-      <line>
-        <item>Above $8000</item>
-        <item>10000</item>
-      </line>
-      <line>
-        <item>Under $2000</item>
-        <item>20000</item>
-      </line>
-      <line>
-        <item>$2000 to $4000</item>
-        <item>20000</item>
-      </line>
-      <line>
-        <item>$4000 to $8000</item>
-        <item>20000</item>
-      </line>
-      <line>
-        <item>$8000 to $16000</item>
-        <item>20000</item>
-      </line>
-      <line>
-        <item>Above $16000</item>
-        <item>20000</item>
-      </line>
-    </data>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>112</xloc>
-      <yloc>80</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>read_from_dim_price_bucket</name>
     <type>TableInput</type>
     <description/>
@@ -1240,8 +1055,11 @@
     </partitioning>
     <connection>azdwh_dwh_conn</connection>
     <sql>select 
-description as description_tgt,
-reference_price as reference_price_tgt
+reference_price as reference_price_tgt,
+first_interval ,
+second_interval,
+third_interval ,
+fourth_interval 
 from dwh_own.dim_price_bucket</sql>
     <limit>0</limit>
     <lookup/>
@@ -1251,14 +1069,37 @@ from dwh_own.dim_price_bucket</sql>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
-        <type>String</type>
+        <type>BigNumber</type>
         <storagetype>normal</storagetype>
-        <name>description_tgt</name>
-        <length>50</length>
+        <name>reference_price_tgt</name>
+        <length>-1</length>
         <precision>-1</precision>
         <origin>read_from_dim_price_bucket</origin>
-        <comments>description_tgt</comments>
-        <conversion_Mask/>
+        <comments>reference_price_tgt</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Amsterdam</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>first_interval</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>read_from_dim_price_bucket</origin>
+        <comments>first_interval</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -1274,16 +1115,62 @@ from dwh_own.dim_price_bucket</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>BigNumber</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>reference_price_tgt</name>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>second_interval</name>
+        <length>9</length>
+        <precision>0</precision>
         <origin>read_from_dim_price_bucket</origin>
-        <comments>reference_price_tgt</comments>
-        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <comments>second_interval</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol/>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Amsterdam</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>third_interval</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>read_from_dim_price_bucket</origin>
+        <comments>third_interval</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>Europe/Amsterdam</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fourth_interval</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>read_from_dim_price_bucket</origin>
+        <comments>fourth_interval</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
         <trim_type>none</trim_type>
         <case_insensitive>N</case_insensitive>
@@ -1323,7 +1210,7 @@ from dwh_own.dim_price_bucket</sql>
       <schema_name/>
     </partitioning>
     <connection>azdwh_dwh_conn</connection>
-    <sql>select coalesce(max(price_bucket_id),0) as current_price_bucket_id
+    <sql>select coalesce(max(price_bucket_key),0) as current_price_bucket_key
 from dwh_own.dim_price_bucket</sql>
     <limit>0</limit>
     <lookup/>
@@ -1335,11 +1222,11 @@ from dwh_own.dim_price_bucket</sql>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>current_price_bucket_id</name>
+        <name>current_price_bucket_key</name>
         <length>9</length>
         <precision>0</precision>
         <origin>read_from_dim_price_bucket 2</origin>
-        <comments>current_price_bucket_id</comments>
+        <comments>current_price_bucket_key</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1400,6 +1287,137 @@ from dwh_own.dim_price_bucket</sql>
     <GUI>
       <xloc>928</xloc>
       <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>price_bucket_list</name>
+    <type>DataGrid</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>reference_price_src</name>
+        <type>Number</type>
+        <format>#</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+      <field>
+        <name>first_interval</name>
+        <type>Number</type>
+        <format>#</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+      <field>
+        <name>second_interval</name>
+        <type>Number</type>
+        <format>#</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+      <field>
+        <name>third_interval</name>
+        <type>Number</type>
+        <format>#</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+      <field>
+        <name>fourth_interval</name>
+        <type>Number</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+    </fields>
+    <data>
+      <line>
+        <item>100</item>
+        <item>10</item>
+        <item>20</item>
+        <item>40</item>
+        <item>80</item>
+      </line>
+      <line>
+        <item>500</item>
+        <item>25</item>
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
+      </line>
+      <line>
+        <item>1000</item>
+        <item>100</item>
+        <item>200</item>
+        <item>400</item>
+        <item>800</item>
+      </line>
+      <line>
+        <item>5000</item>
+        <item>500</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>4000</item>
+      </line>
+      <line>
+        <item>10000</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>4000</item>
+        <item>8000</item>
+      </line>
+      <line>
+        <item>20000</item>
+        <item>2000</item>
+        <item>4000</item>
+        <item>8000</item>
+        <item>16000</item>
+      </line>
+    </data>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>112</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
