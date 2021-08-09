@@ -16,6 +16,10 @@
 \i staging/3.stage_own_sales_rank.sql
 
 
+\echo Partition Function
+
+\i dwh/7.fn_create_yearmonth_auto_parttables.sql
+\i dwh/7.fn_create_yearmonth_auto_partition.sql
 
 \echo Creating dwh_own objects
 \i dwh/4.dwh_own_dim_price_bucket.sql
@@ -27,7 +31,3 @@
 \i dwh/4.dwh_own_dim_calendar_date.sql
 \i dwh/6.mview_review_olap.sql
 
-\echo Partition Function
-
-\i dwh/7.fn_create_yearmonth_auto_parttables.sql
-\i dwh/7.fn_create_yearmonth_auto_partition.sql
