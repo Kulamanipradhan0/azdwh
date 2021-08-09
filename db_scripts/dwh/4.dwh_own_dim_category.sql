@@ -1,6 +1,6 @@
 ﻿
 
-﻿drop table if exists dwh_own.xref_product_category ;
+﻿drop table if exists dwh_own.xref_product_category CASCADE;
 
 create table dwh_own.dim_category(
 category_key	serial,

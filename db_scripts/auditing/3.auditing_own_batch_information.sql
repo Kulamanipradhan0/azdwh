@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS auditing_own.process_information;
-DROP TABLE IF EXISTS auditing_own.error_log;
+DROP TABLE IF EXISTS auditing_own.process_information CASCADE;
+DROP TABLE IF EXISTS auditing_own.error_log CASCADE;
 DROP TABLE IF EXISTS auditing_own.batch_information;
 
 CREATE TABLE auditing_own.batch_information (
