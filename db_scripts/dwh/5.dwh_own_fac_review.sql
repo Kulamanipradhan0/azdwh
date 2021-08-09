@@ -17,3 +17,5 @@ CONSTRAINT fac_review_pkey PRIMARY KEY (reviewer_key,product_key,insert_datetime
 );
 
 create index fac_review_ix_01 on dwh_own.fac_review (batch_identifier);
+
+--select dwh_own.fn_create_yearmonth_auto_partition('dwh_own','fac_review','review_date','azdwh_tb');
