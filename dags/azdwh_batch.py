@@ -197,8 +197,8 @@ with DAG(
     [run_dim_product, run_dim_category] >> run_xref_product_category
     [run_dim_product, run_dim_reviewer] >> run_fac_review
 
-    [run_dim_calendar_date, run_xref_product_category, run_fac_review] >> run_batch_end
-    run_batch_end >> run_refresh_olap_views
+    [run_dim_calendar_date, run_xref_product_category, run_fac_review] >> run_refresh_olap_views
+    run_refresh_olap_views >> run_batch_end
 
 if __name__ == "__main__":
     dag.cli()
