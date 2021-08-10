@@ -1,9 +1,9 @@
-
+﻿DROP MATERIALIZED VIEW IF EXISTS dwh_own.mview_product_analysis_olap;
 
 CREATE MATERIALIZED VIEW dwh_own.mview_product_analysis_olap AS 
-  SELECT c.category_name as "Category Name",
-    p.title AS "Product Title",
-    p.product_id as "Product ID",
+  SELECT c.category_name,
+    p.title ,
+    p.product_id ,
 	p.product_price,
 	b.first_interval,
 	b.second_interval,
