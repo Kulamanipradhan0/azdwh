@@ -5,7 +5,7 @@
 ##### Ubuntu 18                                                                                     #####   
 ##### Java 1.8 jdk                                                                                  #####   
 ##### Python 3.7                                                                                    #####               
-##### Tableau 20                                                                                    #####              
+##### Tableau 2020.3                                                                                #####              
 ##### Pentaho 9.2   (It can only start with Java 1.8 jdk)                                           #####   
 ##### Postgres 11.7 (Tableau Higher version is not supporting postgres 12 or higher)                #####   
 ##### Apache Airflow                                                                                #####    
