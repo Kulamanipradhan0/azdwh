@@ -1,0 +1,49 @@
+Hi Kulamani,
+
+Congratulations! The meeting went very well and therefore we would like to invite you for a challenge! Are you willing to work on it and share your approach and results? It's a case study in which you have the chance to deepdive into data and prepare a presentation for the team. If you have any questions, please let us know! For the following assignment please use data on Amazon Reviews?
+
+Next steps in the procedure:
+Making the case (within 7 days as from the date this mail is sent)
+Presentation to the team (30 - 45 minutes) - You'll get an invitation from Maria Penha
+Offer
+ The data is available at
+Reviews: https://s3-eu-west-1.amazonaws.com/bigdata-team/job-interview/item_dedup.json.gz
+Metadata: https://s3-eu-west-1.amazonaws.com/bigdata-team/job-interview/metadata.json.g
+Some descriptives on the dataset can be found at: http://jmcauley.ucsd.edu/data/amazon/links.html
+Assignment
+Design and implement Data Warehouse (DWH) and design and implement corresponding Extract/Transform/Load (ETL)  pipeline to load the DWH.
+
+Your solution must include:
+Dimensional modelling of data.
+At least one fact table.
+Product price as one of the fields in the dimensional model.
+Define dimension of price buckets (and define price buckets too).
+Define dimension of product category (you may use only the highest category in the categories hierarchy. Pick the first category if a product belongs to multiple categories).
+Data quality considerations (describe how data quality is implemented).
+Duplicates handling.
+Expressive, re-usable, clean code.
+Some scheduling framework or workflow platform.
+Describe the data store and tools used to query it - including the presentation layer.
+Open source solutions and preferably avoid proprietary products.
+It would be good if your solution would:
+be scalable in case new data were to flow in on a high-volume basis(10x bigger) and has to be imported at a higher frequency.
+Proper exception handling / logging for bullet proof runs (3 times a day).
+Include a discussion on alternative modelling approaches, which might be beneficial for the DWH.
+Remarks / Comments of those parts (optimization) where you could speed up execution and / or save network traffic.
+Contain modelling and implementation of the check if the products bought and viewed contained the same ids.
+Contain implementation of a dimension, which is of Type 2 Slowly Changing Dimension.
+use containers.
+Downloading the source data from the pipeline itself and having the ability to do the same at regular intervals.
+ 
+The final result must consist of the following 2 insights:
+Obtain histogram of review ratings - and be able to see a visualisation of the same.
+Analysis of products by price bucket and product category.
+During your presentation, you are expected to present your approach for each of the points above, including considerations of alternative approaches and how you decided on the best way to proceed. You should convince us of the way you modeled the data and your data pipelines. Please also present the challenges you faced and further ideas on what more could be done if this was a larger project with less tight of a deadline.
+
+You can use whatever tools / languages in order to solve the questions. Please make the product in such a way so that you are sure it could run in a productionised setting. You will get 30-45 minutes to present your results to the team where after they will ask detailed questions.
+ 
+Although the above assignment may feel specific and restrictive, please feel free to use your creativity and flexibility.
+ 
+Furthermore, please send in your code and presentation via email to Atsushi Sakai atsushi.sakai@justeattakeaway.com, Sreeti Das sreeti.das@justeattakeaway.com, Mert Sener mert.sener@justeattakeaway.com and me no later than 7 days from the date sent (August 11th)
+ 
+Good luck and enjoy the challenge and if you have any questions about the case, please reach out to Atsushi, Sreeti or Atsushi
